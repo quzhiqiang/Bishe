@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fileComment">
+<insert id="insertComment"  parameterType="fileComment">
+insert into file_comment(fileId,userId,message,messageDate) values(#{fileId},#{userId},#{message},#{messageDate})
+</insert>
+<select id="getComment" parameterType="string" resultType="fileComment">
+select userName,picture,message,messageDate from file_comment a,user_basic_information b where fileId=#{fileId} and a.userId = b.userId
+order by messageDate desc
+</select>
+</mapper>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>云影交流网-文件下载</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/toastr.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-animate.min.js"></script>
+<script type="text/javascript" src="js/angular-resource.min.js"></script>
+<script type="text/javascript" src="js/angular-route.min.js"></script>
+<style type="text/css">
+body {
+ padding-top: 70px;/*有顶部固定导航条时设置*/
+}
+a {
+	cursor: pointer;
+}
+</style>
+</head>
+<body ng-app="myApp" ng-controller="userInfo">
+	<div class="container col-lg-12">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> 
+					 <a class="navbar-brand" href="#">云影BBS</a>
+				</div>
+				<div class="collapse navbar-collapse col-lg-offset-2" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li >
+							 <a href="home.html">浏览帖子</a>
+						</li>
+						<li class="active">
+							 <a href="#/">下载文件</a>
+						</li>
+						<li>
+							 <a href="shareFile.html">分享文件</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" />
+						</div> <button type="submit" class="btn btn-default">查询</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							 <a href="person_information.html"><strong>个人中心</strong></a>
+						</li>
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									 <a href="#">Action</a>
+								</li>
+								<li>
+									 <a href="#">Another action</a>
+								</li>
+								<li>
+									 <a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									 <a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+									 &nbsp; &nbsp; &nbsp; &nbsp;
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+		</div>
+	</div>
+</div>
+		<div id="mainDiv" class="container col-lg-7 col-lg-offset-1" style="margin-top:1%;" ng-controller="fileInfo">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="panel panel-default">
+						<h3 class="text-center">
+							分享促进发展，与世界分享你的资源 <span><img alt="笑脸" src="image/smile.png"
+								height="60px"></span>
+						</h3>
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								<b>用户文件下载专区</b>
+							</h3>
+						</div>
+						<div class="panel-body" id="fileList">
+							<div >
+								<table class="table table-striped">
+									<tr>
+										<th>文件名</th>
+										<th>分享作者</th>
+										<th>分享时间</th>
+										<th>下载量</th>
+										<th>操作</th>
+									</tr>
+									<tr ng-repeat="x in file" class="success">
+										<td ng-if="$odd" style="background-color: #f1f1f1">
+										<a href="fileDetail.html?id={{x.fileId}}" >{{x.fileName }}</a></td>
+										<td ng-if="$even"><a href="fileDetail.html?id={{x.fileId}}">{{ x.fileName }}</a></td>
+										<td ng-if="$odd" style="background-color: #f1f1f1">{{
+											x.userName }}</td>
+										<td ng-if="$even">{{ x.userName }}</td>
+										<td ng-if="$odd" style="background-color: #f1f1f1">{{
+											x.time | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+										<td ng-if="$even">{{ x.time | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+										<td ng-if="$odd" style="background-color: #f1f1f1">{{
+											x.downloads }}</td>
+										<td ng-if="$even">{{ x.downloads }}</td>
+										<td ng-if="$odd" style="background-color: #f1f1f1"><a
+											href="file/download/{{x.fileId}}">下载</a></td>
+										<td ng-if="$even"><a href="file/download/{{x.fileId}}">下载</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+						</div>
+						<div class="panel-footer">
+							<div align="center" class="row">
+							<ul class="pagination pagination-sm">
+							    <li><a >共有{{page.pageTotal}}页</a></li>
+							    <li><a >{{page.totalSize}}条数据</a></li>
+								<li><a ng-click = "getList(1)">首页</a></li>
+								<li><a ng-click = "getList(page.pageNum-1)" ng-show="page.pageNum>1">上一页</a></li>
+								<li class="disabled"><a  ng-show="page.pageNum==1">上一页</a></li>
+								<li><a href="#/">第{{page.pageNum}}页</a></li>
+								<li><a  ng-click = "getList(page.pageNum+1)"ng-show="page.pageNum<(page.totalSize/page.pageSize)">下一页</a></li>
+								<li class="disabled"><a  ng-show="page.pageNum==(page.pageTotal)">下一页</a></li>
+								<li><a ng-click = "getList(page.pageTotal)">尾页</a></li>
+							</ul>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="userInfo" class="container col-lg-3 col-lg-offset-1"
+		style="margin-top: 1%;" ng-view>
+	</div>
+	<script>
+		var app = angular.module('myApp', ["ngRoute"]);
+		app.controller('userInfo', function($scope, $http) {
+			$http({
+				method : 'post',
+				url : 'user/userInfo'
+			}).then(function successCallback(response) {
+				if (response.data == "") {
+					//未登录
+					$scope.flag = "1";
+				} else {
+					//已登录
+					$scope.flag = "0";
+					$scope.user = response.data;
+				}
+			}, function errorCallback(response) {
+			});
+		});
+		app.controller('fileInfo', function($scope,$http) {
+			$http({
+				method : 'get',
+				url : 'file/getList?pageNum=1'
+			}).then(function successCallback(response) {
+				$scope.file = response.data.fileList;
+				$scope.page = response.data.page;
+			}, function errorCallback(response) {
+				$("#fileList").html("");
+				$("#fileList").append("<h3 class='text-center'>访问后台数据失败！！！</h3>");
+			});
+			$scope.getList = function(page) {
+				$http({
+					method : 'get',
+					url : 'file/getList?pageNum='+page
+				}).then(function successCallback(response) {
+					$scope.file = response.data.fileList;
+					$scope.page = response.data.page;
+				}, function errorCallback(response) {
+					$("#fileList").html("");
+					$("#fileList").append("<h3 class='text-center'>访问后台数据失败！！！</h3>");
+				});
+			}
+		});
+		app.config(['$routeProvider', function($routeProvider){
+            $routeProvider
+            .when('/',{templateUrl:'userInfo.html',controller:"userInfo"})
+            .otherwise({redirectTo:'/'});
+        }]);
+		function logout() {
+			$.ajax({
+				url : "user/logout",
+				type : "post",
+				success : function(data) {
+					if (data = "ok") {
+						toastr.info("注销账户成功");
+					}
+					setTimeout("location.reload()", 1000);
+				}
+			});
+		}
+		function userLogin() {
+			var nametxt = $("#loginName").val();
+			var passtxt = $("#loginPassword").val();
+			if (nametxt == "" || passtxt == "") {
+				toastr.warning("登录数据不允许存在空值");
+			} else {
+				$.ajax({
+					url : "user/login",
+					data : {
+						"userName" : nametxt,
+						"passwordEncryption" : passtxt
+					},
+					type : "post",
+					success : function(data) {
+						if (data == "ok") {
+							toastr.info("登录成功");
+							$("#loginBtn").attr("disabled", "true");
+							$("#loginBtn").text("正在登录");
+							setTimeout("window.location.reload()", 1000);
+						} else {
+							toastr.warning("账号或密码错误！！");
+						}
+					}
+				});
+			}
+		}
+	</script>
+</body>
+</html>

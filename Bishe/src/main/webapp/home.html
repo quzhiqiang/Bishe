@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>云影交流网-主页</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="css/toastr.min.css" type="text/css" />
+<link rel="stylesheet" href="dist/css/index.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/toastr.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-animate.min.js"></script>
+<script type="text/javascript" src="js/angular-resource.min.js"></script>
+<script type="text/javascript" src="js/angular-route.min.js"></script>
+<style type="text/css">
+body {
+	padding-top: 70px; /*有顶部固定导航条时设置*/
+}
+
+#chatDiv {
+	z-index: 10;
+	position: absolute;
+	display: none; 
+} 
+
+#emoji {
+	 height: 280px;
+	position: absolute;
+	z-index: 10;
+	margin-top: 300px;
+	display: none;
+	overflow-x: hidden;
+}
+
+#emoji button {
+	background-color: white;
+}
+
+.selector {
+	font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti,
+		MingLiu
+}
+.chatStyle {
+	border-bottom: dotted 2px gray;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.invitation{
+    border-bottom: dotted 1px gray;
+    padding-bottom: 5px;
+}
+#btnGroup{
+z-index: 9;
+width:100px;
+position: fixed;
+margin-top:100px;
+}
+#btnGroup button{
+margin-top:10px;
+}
+</style>
+</head>
+<body ng-app="myApp" ng-controller="userInfo">
+	<div class="container col-lg-12">
+		<div class="row clearfix">
+			<div class="col-lg-12 column">
+				<nav class="navbar navbar-default navbar-fixed-top"
+					role="navigation">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span><span
+								class="icon-bar"></span><span class="icon-bar"></span><span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#/">云影BBS</a>
+					</div>
+					<div class="collapse navbar-collapse col-lg-offset-2"
+						id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="#/">浏览帖子</a></li>
+							<li><a href="file.html">下载文件</a></li>
+							<li><a href="shareFile.html">分享文件</a></li>
+						</ul>
+						<form class="navbar-form navbar-left" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" />
+							</div>
+							<button type="submit" class="btn btn-default">查询</button>
+						</form>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="person_information.html"><strong>个人中心</strong></a>
+							</li>
+							<li class="dropdown"><a href="#/" class="dropdown-toggle"
+								data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="divider"></li>
+									<li><a href="#">Separated link</a></li>
+								</ul></li>
+							<li>&nbsp; &nbsp; &nbsp; &nbsp;</li>
+						</ul>
+					</div>
+
+				</nav>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//加载表情
+		function loadEmoji(){
+			var txt1 = "";
+			 for(var i=1;i<92;i++){
+					txt1 = txt1+"<button onclick='getemoji("+i+")'><img src='dist/img/qq/"+i+".gif'></button>";
+				 }
+		 $("#qqEmoji").html(txt1);
+		 var mycars=new Array();
+		 mycars[0]="w(ﾟДﾟ)w";
+		 mycars[1]="(ノへ￣、)";
+		 mycars[2]="(￣_,￣ )";
+		 mycars[3]="ヽ(✿ﾟ▽ﾟ)ノ";
+		 mycars[4]="(๑•̀ㅂ•́)و✧";
+		 mycars[5]="♪(^∇^*)";
+		 mycars[6]="o(*≧▽≦)ツ┏━┓";
+		 mycars[7]="╰(*°▽°*)╯";
+		 mycars[8]="(u‿ฺu✿ฺ)";
+		 mycars[9]="┗|｀O′|┛ 嗷~~";
+		 mycars[10]="▄︻┻┳═一";
+		 mycars[11]="o(≧口≦)o";
+		 mycars[12]="(⊙x⊙;)";
+		 mycars[13]="￣へ￣";
+		 mycars[14]="ヽ（≧□≦）ノ";
+		 mycars[15]="o(￣▽￣)ｄ";
+		 mycars[16]="[]~(￣▽￣)~*";
+		 mycars[17]="(ง •_•)ง";
+		 mycars[18]="ㄟ(≧◇≦)ㄏ";
+		 mycars[19]="（。＾▽＾）";
+		 mycars[20]="(‾◡◝)";
+		 var txt2 = "";
+		 for(var i=0;i<21;i++){
+				txt2= txt2+'<button onclick="yanwenzi(\''+mycars[i]+'\')">'+mycars[i]+'</button>';
+			 }
+		 $("#baiduEmoji").html(txt2);
+		}
+		
+		function yanwenzi(txt){
+			 $("#editor").append(txt);
+		}
+		</script>
+	<div id="mainDiv" class="container col-lg-7 col-lg-offset-1"
+		style="margin-top: 1%;">
+		<div class="row">
+			<div class="col-md-12 column">
+				<div class="carousel slide" id="carousel-762130">
+					<ol class="carousel-indicators">
+						<li data-slide-to="0" data-target="#carousel-762130" class="active"></li>
+						<li data-slide-to="1" data-target="#carousel-762130"></li>
+						<li data-slide-to="2" data-target="#carousel-762130"></li>
+					</ol>
+					<div class="carousel-inner">
+						<div class="item active">
+							<img alt="" src="image/1.jpg" />
+							<div class="carousel-caption">
+								<h2 class="selector">长沙理工大学欢迎您</h2>
+								<p>教育部“卓越工程师教育培养计划、中西部高校基础能力建设工程”、“绿色交通联盟”六所高校之一，电力企业、电力行业“特高压奖学金”院校之一</p>
+							</div>
+						</div>
+						<div class="item">
+							<img alt="" src="image/2.jpg" />
+							<div class="carousel-caption">
+								<h2 class="selector">长沙理工大学——体育馆</h2>
+							</div>
+						</div>
+						<div class="item">
+							<img alt="" src="image/3.jpg" />
+							<div class="carousel-caption">
+								<h2 class="selector">长沙理工大学大学——夜色</h2>
+							</div>
+						</div>
+					</div>
+					<a class="left carousel-control" href="#carousel-762130"
+						data-slide="prev"><span
+						class="glyphicon glyphicon-chevron-left"></span></a> <a
+						class="right carousel-control" href="#carousel-762130"
+						data-slide="next"><span
+						class="glyphicon glyphicon-chevron-right"></span></a>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 1%;">
+			<div class="col-lg-12 column">
+				<div class="panel panel-default">
+					<div class="panel-heading">发帖专区</div>
+					<div class="panel-body" id="invitation" ng-controller="invitationInfo">
+						<div class="col-lg-12 invitation" ng-repeat="x in inv">
+						<div class="row">
+						<div class="col-lg-9"><a><h4>{{x.headline}}</h4></a></div>
+						<div class="col-lg-3"><span class="glyphicon glyphicon-user"></span><strong>{{x.userName}}</strong></div>
+						<div class="col-lg-9"><small>{{x.content}}</small></div>
+						<div class="col-lg-3">{{x.invitationDate | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+						</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<div align="center">
+							<ul class="pagination pagination-sm">
+								<li><a href="#">&laquo;</a></li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&raquo;</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="userInfo" class="container col-lg-3 col-lg-offset-1"
+		style="margin-top: 1%;" ng-view>
+	</div>
+	<div class="container col-lg-3 col-lg-offset-9" id="chatDiv">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="btn glyphicon glyphicon-off"
+							style="float: right; color: red;" onclick="openChatDiv()"
+							data-toggle="tooltip" data-placement="left" title="关闭聊天室"></span>
+						<span class="panel-title">欢迎来到云影聊天室</span>
+					</div>
+					<div class="panel-body">
+						<div id="chatdiv"
+							style="height: 350px; background-color: white; overflow-x: hidden;">
+						</div>
+					</div>
+					<div class="panel-footer">
+						<div id="editor" contenteditable="true"
+							style="overflow-x: hidden;"></div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon btn"
+								style="background-color: white;">@{{user.userName}}</span> <span
+								class="input-group-addon btn" id="biaoqing">表情</span> <span
+								class="input-group-addon btn" id="reset">清空</span> <span
+								class="input-group-addon btn" id="send">发送</span>
+						</div>
+						<script type="text/javascript">
+								$("#biaoqing").click(function() {
+													var $emoji = $("#emoji");
+													var flag = $emoji.css("display");
+													if (flag == 'none') {
+														loadEmoji();
+														$emoji.show();
+													} else {
+														$emoji.hide();
+													}
+												});
+								$("#reset").click(function() {
+									$("#editor").html("");
+								});
+								function getemoji(i) {
+									var txt = "<img src='dist/img/qq/"+i+".gif'>";
+									$("#editor").append(txt);
+								}
+								$("#send").click(function() {
+									send();
+								});
+							</script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container col-lg-4 col-lg-offset-5" id="emoji">
+		<div class="row">
+			<div class="col-md-12 column">
+				<div class="panel panel-default">
+					<div class="panel-heading tabbable" id="tabs-337138">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#qqEmoji" data-toggle="tab">QQ表情</a>
+							</li>
+							<li><a href="#baiduEmoji" data-toggle="tab">颜文字</a></li>
+						</ul>
+					</div>
+					<div class="panel-body tab-content">
+						<div class="tab-pane active" id="qqEmoji"></div>
+						<div class="tab-pane" id="baiduEmoji"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container col-lg-offset-8" id="btnGroup">
+		<div class="btn-group-vertical">
+			<button type="button" class="btn btn-default glyphicon glyphicon-edit">发帖</button>
+			<button type="button" class="btn btn-default glyphicon glyphicon-refresh">刷新</button>
+			<button type="button" class="btn btn-default glyphicon glyphicon-triangle-top">顶部</button>
+			<button type="button" class="btn btn-default glyphicon glyphicon-triangle-bottom">底部</button>
+			<button type="button" class="btn btn-default glyphicon glyphicon-modal-window" ng-show="flag==0" onclick="openChatDiv()">聊天</button>
+		</div>
+	</div>
+	<script>
+		var app = angular.module('myApp', ["ngRoute"]);
+		app.controller('userInfo', function($scope, $http) {
+			$http({
+				method : 'post',
+				url : 'user/userInfo'
+			}).then(function successCallback(response) {
+				if (response.data == "") {
+					//未登录
+					$scope.flag = "1";
+				} else {
+					//已登录
+					$scope.flag = "0";
+					$scope.user = response.data;
+				}
+			}, function errorCallback(response) {
+				toastr.warning("系统异常,无法获取用户信息！！！");
+			});
+		});
+		
+		app.controller('invitationInfo', function($scope, $http) {
+			$http({
+				method : 'post',
+				url : 'inv/getList'
+			}).then(function successCallback(response) {
+					$scope.inv = response.data;
+			}, function errorCallback(response) {
+				toastr.warning("系统异常,无法获取发帖信息！！！");
+			});
+		});
+		app.config(['$routeProvider', function($routeProvider){
+            $routeProvider
+            .when('/',{templateUrl:'userInfo.html',controller:"userInfo"})
+            .otherwise({redirectTo:'/'});
+        }]);
+
+		var websocket = null;
+		function openChatDiv() {
+			$("#emoji").hide();
+			var flag = document.getElementById("chatDiv").style.display;
+			if (flag == "") {
+				document.getElementById("chatDiv").style.display = "block";
+				if ('WebSocket' in window) {
+					websocket = new WebSocket("ws://localhost:8080/Bishe/websocket");
+				} else {
+					toastr.warning('当前浏览器 不支持 websocket')
+				}
+				websocketUtil();
+			} else {
+				closeWebSocket();
+				$("#chatdiv").html("");
+				$("#txt").val("");
+				document.getElementById("chatDiv").style.display = "";
+			}
+		}
+		function websocketUtil() {
+			//连接发生错误的回调方法  
+			websocket.onerror = function() {
+				setMessageInnerHTML("error");
+			};
+			//连接成功建立的回调方法  
+			websocket.onopen = function() {
+				setMessageInnerHTML("success");
+			}
+			//接收到消息的回调方法  
+			websocket.onmessage = function(event) {
+				setMessageInnerHTML(event.data);
+			}
+			//连接关闭的回调方法  
+			websocket.onclose = function() {
+				/* setMessageInnerHTML("聊天室已退出"); */
+			}
+			//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。  
+			window.onbeforeunload = function() {
+				closeWebSocket();
+			}
+		}
+		//关闭WebSocket连接  
+		function closeWebSocket() {
+			websocket.close();
+		}
+		function setMessageInnerHTML(innerHTML) {
+			if(innerHTML=="warning"){
+				$("#chatdiv").append("<div class='chatStyle'>警告！！当前页面与服务器聊天室连接已断开</div>");
+			}
+			else if(innerHTML=="success"){
+				$("#chatdiv").append("<div class='chatStyle'>连接聊天室成功</div>");
+			}
+			else if(innerHTML=="error"){
+				$("#chatdiv").append("<div class='chatStyle'><font color='red;'>连接聊天室错误</font></div>");
+			}
+			else{
+			var json = JSON.parse(innerHTML);
+			var txt = "<div class='chatStyle'><div><div><img width='30px' src="+json.picture+">"+"<strong style='color:red;font-size:22px;'>"+json.userName+"</strong>:</div>"+"<div style='float:right;'>"+json.time+"</div></div>"+
+			"<p>"+json.message+"</p></div>";
+			$("#chatdiv").append(txt);
+			}
+			$('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
+		}
+		function send() {
+			$editor = $("#editor");
+			if ($editor.html() == "") {
+				toastr.warning("内容不能为空!!!!");
+			} else {
+				var message = $editor.html().toString();
+				message = message.replace(/<div>/ig, " ");
+				message = message.replace(/<.div>/ig, " ");
+				$editor.html("");
+				websocket.send(message);
+			}
+		}
+		function logout() {
+			$.ajax({
+				url : "user/logout",
+				type : "post",
+				success : function(data) {
+					if (data = "ok") {
+						toastr.info("注销账户成功");
+					}
+					setTimeout("location.reload()", 1000);
+				},
+				error:function(data){
+					toastr.warning("注销用户失败");
+				}
+			});
+		}
+		function userLogin() {
+			var nametxt = $("#loginName").val();
+			var passtxt = $("#loginPassword").val();
+			if (nametxt == "" || passtxt == "") {
+				toastr.warning("登录数据不允许存在空值");
+			} else {
+				$.ajax({
+					url : "user/login",
+					data : {
+						"userName" : nametxt,
+						"passwordEncryption" : passtxt
+					},
+					type : "post",
+					success : function(data) {
+						if (data == "ok") {
+							toastr.info("登录成功");
+							$("#loginBtn").attr("disabled", "true");
+							$("#loginBtn").text("正在登录");
+							setTimeout("window.location.reload()", 1000);
+						} else {
+							toastr.warning("账号或密码错误!!");
+						}
+					},
+					error:function(data){
+						toastr.warning("因未知原因,登录失败!!");
+					}
+				});
+			}
+		}
+		$(document).click(function(e){
+			  var target = $(e.target);
+			  if(target.is('#editor')){
+				 $("#emoji").hide();  
+			  }
+			});
+	</script>
+</body>
+</html>
