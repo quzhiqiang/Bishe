@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userBasic">
+<select id="userIsExist" resultType="string">
+select userName from user_basic_information where userName=#{userName}
+</select>
+<insert id="userRegister" parameterType="userBasic">
+insert into user_basic_information(userId,userName,passwordEncryption,email,registerDate) 
+values(#{userId},#{userName},#{passwordEncryption},#{email},#{registerDate})
+</insert>
+<select id="userLogin" parameterType="userBasic" resultType="userBasic">
+select userId,userName,picture from user_basic_information where userName=#{userName} and passwordEncryption=#{passwordEncryption}
+</select>
+<insert id="registerTable" parameterType="userInfo">
+insert into user_information(userId) values(#{userId})
+</insert>
+</mapper>

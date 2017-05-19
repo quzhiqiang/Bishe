@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>云影交流网-分享文件</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="css/toastr.min.css" type="text/css" />
+<link rel="stylesheet" href="dist/css/index.css" />
+<link rel="stylesheet" href="css/jquery-confirm.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/toastr.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-animate.min.js"></script>
+<script type="text/javascript" src="js/angular-resource.min.js"></script>
+<script type="text/javascript" src="js/angular-route.min.js"></script>
+<script src="js/jquery-confirm.min.js"></script>
+<style type="text/css">
+body {
+ padding-top: 70px;/*有顶部固定导航条时设置*/
+}
+a {
+	cursor: pointer;
+}
+</style>
+</head>
+<body ng-app="myApp" ng-controller="userInfo">
+			<div class="container col-lg-12">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+						<div class="navbar-header">
+							 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> 
+							 <a class="navbar-brand" href="#">云影BBS</a>
+						</div>
+						<div class="collapse navbar-collapse col-lg-offset-2" id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav">
+								<li >
+									 <a href="home.html">浏览帖子</a>
+								</li>
+								<li >
+									 <a href="file.html">下载文件</a>
+								</li>
+								<li class="active">
+									 <a href="#/">分享文件</a>
+								</li>
+							</ul>
+							<ul class="nav navbar-nav navbar-right">
+								<li>
+									 <a href="person_information.html"><strong>个人中心</strong></a>
+								</li>
+								<li class="dropdown">
+									 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+									<ul class="dropdown-menu">
+										<li>
+											 <a href="#">Action</a>
+										</li>
+										<li>
+											 <a href="#">Another action</a>
+										</li>
+										<li>
+											 <a href="#">Something else here</a>
+										</li>
+										<li class="divider">
+										</li>
+										<li>
+											 <a href="#">Separated link</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									 &nbsp; &nbsp; &nbsp; &nbsp;
+								</li>
+							</ul>
+						</div>
+						
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="container col-lg-7 col-lg-offset-1" id="mainDiv" > 
+			<div class="row clearfix">
+				<div class="col-lg-12 column">
+					<div class="panel panel-default">
+						<h3 class="text-center">
+							分享促进发展，与世界分享你的资源 <span><img alt="笑脸" src="image/smile.png"
+								height="60px"></span>
+						</h3>
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								<b>用户文件上传文件专区</b>
+							</h3>
+						</div>
+						<div class="panel-body" id="fileList">
+							<div ng-show="flag==0">
+								<form id="uploadForm">
+									<input type="file" id="file" name="file" style="display: none;"
+										onchange="fileSelected()" />
+								</form>
+								<h3>
+									<span class="label label-default">选择您分享的文件</span>
+								</h3>
+								<div class="input-group">
+									<input type="text" class="form-control" disabled="disabled"
+										style="background-color: white;" id="filePath"/> <span
+										class="btn input-group-addon" onclick="fileClick()">选择文件</span>
+								</div>
+								<h3>
+									<span class="label label-default">介绍您分享的文件</span>
+								</h3>
+								<div id="editor" contenteditable="true"
+									style="overflow-x: hidden;"></div>
+								<h3>
+									<span class="label label-default">文件相关信息</span>
+								</h3>
+								<div>
+									<div class="row col-lg-8">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>文件名称</th>
+													<th>文件大小</th>
+													<th>文件类型</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td id="fileName">无</td>
+													<td id="fileSize">无</td>
+													<td id="fileType">无</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-lg-4">
+										<table class="table">
+											<thead>
+												<tr>
+													<th><small>当前进度</small><span class="badge" name="jindu">0%</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><div class="progress progress-striped active">
+															<div class="progress-bar progress-bar-success"
+																role="progressbar" aria-valuenow="60" aria-valuemin="0"
+																aria-valuemax="100" style="width:0%;" id="progressbar">
+																<span name="jindu">0%</span>
+															</div>
+														</div></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+								<button
+									class=" btn btn-primary  btn-block glyphicon glyphicon-share"
+									onclick="UpladFile()">
+									分享我的文档</button>
+							</div>
+							<div ng-show="flag==1">
+								<h3 class="text-center">
+									尊敬的用户朋友,请先<font style='color: red;'>登录</font>再分享文件！！
+								</h3>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<p class="text-center">提示:请用户朋友切勿分享存在版权争议的文件，否则，管理员有权对相关文件进行处理，特此提示</p>
+						</div>
+						<script type="text/javascript">
+								function fileClick() {
+									clearProgressInfo();
+									$("#file").click();
+								}
+								function fileSelected() {
+									var file = document.getElementById('file').files[0];
+									$("#filePath").val($("#file").val());
+									var fileSize = 0;
+									if (file.size > 1024 * 1024){
+										fileSize = (Math.round(file.size * 100
+												/ (1024 * 1024)) / 100)
+												.toString()
+												+ 'MB';
+										}
+									else{
+										fileSize = (Math
+												.round(file.size * 100 / 1024) / 100)
+												.toString()
+												+ 'KB';
+									}
+									var name = file.name;
+									var suffix = name.split(".");
+									//获取截取的最后一个字符串，即为后缀名
+									var last = suffix[suffix.length - 1];
+									$("#fileName").text(name);
+									$("#fileSize").text(fileSize);
+									$("#fileType").text(last);
+								}
+							</script>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="userInfo" class="container col-lg-3 col-lg-offset-1"
+		style="margin-top: 1%;" ng-view>
+	</div>
+	<script>
+			var app = angular.module('myApp', ["ngRoute"]);
+			app.controller('userInfo', function($scope, $http) {
+				$http({
+					method : 'post',
+					url : 'user/userInfo'
+				}).then(function successCallback(response) {
+					if (response.data == "") {
+						//未登录
+						$scope.flag = "1";
+					} else {
+						//已登录
+						$scope.flag = "0";
+						$scope.user = response.data;
+						$("#touxiang").attr("src", $scope.user.picture);
+					}
+				}, function errorCallback(response) {
+					toastr.warning("系统异常,无法获取用户信息！！！");
+				});
+			});
+
+			app.controller(
+							'fileInfo',
+							function($scope, $http) {
+								$http({
+									method : 'get',
+									url : 'file/getList'
+								}).then(
+												function successCallback(
+														response) {
+													$scope.file = response.data;
+												},
+												function errorCallback(response) {
+													$("#fileList").html("");
+													$("#fileList").append(
+																	"<h3 class='text-center'>访问后台数据失败！！！</h3>");
+
+												});
+							});
+			app.config(['$routeProvider', function($routeProvider){
+	            $routeProvider
+	            .when('/',{templateUrl:'userInfo.html',controller:"userInfo"})
+	            .otherwise({redirectTo:'/'});
+	        }]);
+			//消息提示全局配置
+		    toastr.options = {
+		      "closeButton": false,//是否配置关闭按钮
+		      "debug": false,//是否开启debug模式
+		      "newestOnTop": false,//新消息是否排在最上层
+		      "progressBar": false,//是否显示进度条
+		      "positionClass": "toast-top-right",//消息框的显示位置
+		      "preventDuplicates": false,//是否阻止弹出多个消息框
+		      "onclick": null,//点击回调函数
+		      "showDuration": "300",
+		      "hideDuration": "1000",
+		      "timeOut": "3000",//1.5s后关闭消息框
+		      "extendedTimeOut": "1000",
+		      "showEasing": "swing",
+		      "hideEasing": "linear",
+		      "showMethod": "fadeIn",
+		      "hideMethod": "fadeOut"
+		    }
+			function logout() {
+				$.ajax({
+					url : "user/logout",
+					type : "post",
+					success : function(data) {
+						if (data = "ok") {
+							toastr.info("注销账户成功");
+						}
+						setTimeout("location.reload()", 1000);
+					},
+					error:function(data){
+						toastr.warning("注销用户失败");
+					}
+				});
+			}
+			function userLogin() {
+				var nametxt = $("#loginName").val();
+				var passtxt = $("#loginPassword").val();
+				if (nametxt == "" || passtxt == "") {
+					toastr.warning("登录数据不允许存在空值");
+				} else {
+					$.ajax({
+						url : "user/login",
+						data : {
+							"userName" : nametxt,
+							"passwordEncryption" : passtxt
+						},
+						type : "post",
+						success : function(data) {
+							if (data == "ok") {
+								toastr.info("登录成功");
+								$("#loginBtn").attr("disabled", "true");
+								$("#loginBtn").text("正在登录");
+								setTimeout("window.location.reload()", 1000);
+							} else {
+								toastr.warning("账号或密码错误！！");
+							}
+						},
+						error:function(data){
+							toastr.warning("因未知原因,登录失败!!");
+						}
+					});
+				}
+			}
+			function UpladFile(){
+				var fileObj = document.getElementById("file").files[0]; // js 获取文件对象
+				var txt = $("#editor").html();
+				txt = txt.replace(/<.*?>/ig, " ");
+				if(fileObj == undefined){
+					toastr.warning("上传不能为空,请选择上传文件!!");
+					return false;
+				}
+				if(txt == ""){
+					toastr.warning("请务必介绍一下您分享的文件");
+					return false;
+				}
+				$.confirm({
+				    title: 'Confirm!',
+				    content: '确定分享该文件？',
+				    buttons: {
+				        "确定": function () {
+							var FileController = "file/upload"; // 接收上传文件的后台地址 
+							var form = new FormData();
+							form.append("fileIntroduce", txt); // 可以增加表单数据
+							form.append("file", fileObj); // 文件对象
+							// XMLHttpRequest 对象
+							var xhr = new XMLHttpRequest();
+							xhr.open("post", FileController, true);
+							xhr.onload = function() {
+								// alert("上传完成!");
+							};
+							xhr.upload.addEventListener("progress", progressFunction, false);
+							xhr.send(form);
+							xhr.onreadystatechange = function(){
+								if (xhr.readyState == 4) {
+									var flag = xhr.responseText;
+									if(flag == "success"){
+									toastr.success("上传成功！！");
+									}
+									else{
+									toastr.warning(flag);	
+									}
+								}
+							};
+				        },
+				        "取消": function () {
+				        },
+				    }
+				});
+				
+			}
+
+			function clearProgressInfo(){
+				$("span[name='jindu']").html("0%");
+				$("#editor").html("");
+				$("#progressbar").width("0%");
+				$("#fileName").text("无");
+				$("#fileSize").text("无");
+				$("#fileType").text("无");
+				$("#filePath").val("");
+				var objFile=document.getElementById("file");
+				objFile.outerHTML=objFile.outerHTML.replace(/(value=\").+\"/i,"$1\"");
+			}
+
+			function progressFunction(evt) {
+				var $jindu = $("span[name='jindu']");
+				var $progressbar = $("#progressbar");
+				if (evt.lengthComputable) {
+					var txt = Math.round(evt.loaded / evt.total * 100);
+					 $jindu.html( txt + "%");
+					 $progressbar.width(txt + "%");
+				}
+			}
+		</script>
+</body>
+</html>

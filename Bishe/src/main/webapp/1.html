@@ -1,0 +1,29 @@
+<div class="col-lg-12 well">
+	<table class="table table-striped">
+		<tr>
+			<th>文件名</th>
+			<th>分享作者</th>
+			<th>分享时间</th>
+			<th>下载量</th>
+			<th>操作</th>
+		</tr>
+		<tr ng-repeat="x in file" class="success">
+			<td ng-if="$odd" style="background-color: #f1f1f1"><a
+				href="fileDetail.html?id={{x.fileId}}">{{x.fileName }}</a></td>
+			<td ng-if="$even"><a href="fileDetail.html?id={{x.fileId}}">{{
+					x.fileName }}</a></td>
+			<td ng-if="$odd" style="background-color: #f1f1f1">{{ x.userName
+				}}</td>
+			<td ng-if="$even">{{ x.userName }}</td>
+			<td ng-if="$odd" style="background-color: #f1f1f1">{{ x.time |
+				date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+			<td ng-if="$even">{{ x.time | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+			<td ng-if="$odd" style="background-color: #f1f1f1">{{
+				x.downloads }}</td>
+			<td ng-if="$even">{{ x.downloads }}</td>
+			<td ng-if="$odd" style="background-color: #f1f1f1"><a
+				href="file/download/{{x.fileId}}">下载</a></td>
+			<td ng-if="$even"><a href="file/download/{{x.fileId}}">下载</a></td>
+		</tr>
+	</table>
+</div>

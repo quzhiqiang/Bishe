@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="invitation">
+<select id="getInvitationList" resultType="invitation">
+select userName,headline,content,browsingNumber,likeNumber,invitationDate from invitation a,
+user_basic_information b
+where a.userId=b.userId and closeInvitation=0
+order by invitationDate desc
+</select>
+</mapper>
